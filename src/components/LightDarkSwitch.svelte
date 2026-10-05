@@ -12,7 +12,7 @@ import { onMount } from "svelte";
 import type { LIGHT_DARK_MODE } from "@/types/config.ts";
 
 interface Props {
-  "client:only"?: "svelte";
+	"client:only"?: "svelte";
 }
 
 const _props: Props = $props();
