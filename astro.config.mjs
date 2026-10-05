@@ -25,9 +25,34 @@ import { remarkReadingTime } from "./src/plugins/remark-reading-time.mjs";
 import { pluginCustomCopyButton } from "./src/plugins/expressive-code/custom-copy-button.js";
 
 // https://astro.build/config
+const blogBase = "/nepoffo/";
+
+function rehypePublicImageBase() {
+  return (tree) => {
+    function visit(node) {
+      if (node.type === "element" && node.tagName === "img") {
+        const src = node.properties?.src;
+
+        if (
+          typeof src === "string" &&
+          /^(?:\.\/|\/)?guide\//.test(src)
+        ) {
+          node.properties.src =
+            blogBase + src.replace(/^(?:\.\/|\/)/, "");
+        }
+      }
+
+      if (Array.isArray(node.children)) {
+        node.children.forEach(visit);
+      }
+    }
+
+    visit(tree);
+  };
+}
 export default defineConfig({
-	site: "https://fuwari.vercel.app/",
-	base: "/",
+	site: "https://zero721.github.io",
+	base: blogBase,
 	trailingSlash: "always",
 	integrations: [
 		tailwind({
@@ -113,6 +138,7 @@ export default defineConfig({
 			parseDirectiveNode,
 		],
 		rehypePlugins: [
+			rehypePublicImageBase,
 			rehypeKatex,
 			rehypeSlug,
 			[
