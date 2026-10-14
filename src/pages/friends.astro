@@ -1,0 +1,63 @@
+---
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+import { url } from "../utils/url-utils";
+
+const friends = [
+    {
+        name: "梧斛的博客",
+        url: "https://genshin.icu",
+        description: "他是梧斛，一个喜欢游戏、吉他的普通人。偶尔更新他的技术笔记、生活碎片与个人思考。",
+        avatar: "https://genshin.icu/_astro/avatar.BJOamngu_lRx7m.webp",
+    },
+];
+---
+
+<MainGridLayout title="友链" description="朋友们的博客与个人网站">
+    <section class="card-base px-6 py-8 md:px-9">
+        <h1 class="text-2xl font-bold">友链</h1>
+        <p class="mt-3 mb-6 opacity-75">
+            在这里，遇见朋友们的记录与思考。
+        </p>
+
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {friends.map((friend) => (
+                <a
+                    href={friend.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="block rounded-xl border border-black/10 p-5
+                        transition duration-200 dark:border-white/10
+                        hover:bg-[var(--btn-plain-bg-hover)]"
+                >
+                    <div class="flex items-center gap-4">
+                        {friend.avatar && (
+                            <img
+                                src={friend.avatar.startsWith("/")
+                                    ? url(friend.avatar)
+                                    : friend.avatar}
+                                alt={`${friend.name}的头像`}
+                                width="64"
+                                height="64"
+                                loading="lazy"
+                                class="h-16 w-16 shrink-0 rounded-xl object-cover"
+                            />
+                        )}
+
+                        <div class="min-w-0 flex-1">
+                            <h2 class="break-words text-lg font-semibold text-[var(--primary)]">
+                                {friend.name}
+                            </h2>
+                            <p class="mt-1 break-all text-sm opacity-60">
+                                {friend.url}
+                            </p>
+                        </div>
+                    </div>
+
+                    <p class="mt-4 text-sm break-words opacity-75">
+                        {friend.description}
+                    </p>
+                </a>
+            ))}
+        </div>
+    </section>
+</MainGridLayout>
